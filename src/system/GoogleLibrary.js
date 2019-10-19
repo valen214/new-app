@@ -30,7 +30,8 @@ var gapi;
         "clientId": CLIENT_ID,
         "discoveryDocs": [],
         "scope": ""
-    })
+    });
+
 })();
 
 export async function login(){
