@@ -2,20 +2,19 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 
-
-class UploadButton extends React.Component
+class LoginButton extends React.Component
 {
     render(){
-        return <Button className="UploadButton"
+        return <Button className="LoginButton"
             style={ Object.assign({
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
             }, this.props.style) }
             onClick={ this.props.onClick }>
-            upload
+            log in
         </Button>;
     }
 }
 
-export default UploadButton;
+export default LoginButton;

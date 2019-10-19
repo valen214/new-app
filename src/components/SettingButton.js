@@ -1,14 +1,13 @@
 
 import React from 'react';
+import Button from 'react-bootstrap/Button';
 
 
 class SettingButton extends React.Component
 {
     render(){
-        console.log("setting button props:", this.props);
-        return <div className="SettingButton"
+        return <Button className="SettingButton"
             style={ Object.assign({
-                background: "#afa",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -16,7 +15,7 @@ class SettingButton extends React.Component
             onMouseEnter={this.onMouseEnter}
             onClick={this.props.onClick}>
             <span>settings</span>
-        </div>;
+        </Button>;
     }
 }
 

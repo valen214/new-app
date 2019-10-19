@@ -2,37 +2,15 @@
 import React from 'react';
 
 import UploadButton from "./UploadButton";
+import LoginButton from "./LoginButton";
 import ClipArea from "./ClipArea";
 import SettingButton from "./SettingButton";
 
 
 class Header extends React.Component
 {
-    constructor(props){
-        super(props);
-        this.state = {
-            loggedIn: false,
-        };
-
-        this.settingButtonClick = this.settingButtonClick.bind(this);
-        this.uploadButtonClick = this.uploadButtonClick.bind(this);
-    }
-
-    onLoginStateChange(e){
-
-    }
-
-    settingButtonClick(e){
-        this.setState({
-            loggedIn: true
-        });
-    }
-    uploadButtonClick(e){
-
-    }
-
     render(){
-        console.log(this.props);
+        console.log("header:", this);
         return <div className="Header" style={
                 Object.assign({
                 background: "violet",
@@ -42,7 +20,7 @@ class Header extends React.Component
                 justifyContent: "space-evenly",
                 }, this.props.style)}>
             <SettingButton
-                    onClick={ this.settingButtonClick }
+                    onClick={ this.props.settingButtonClick }
                     style={{
                     height: "80%",
                     flex: "0 0 100px",
@@ -51,14 +29,20 @@ class Header extends React.Component
                     height: "80%",
                     flex: "0 1 500px",
             }}></ClipArea>
-            <UploadButton
-                    onClick={ this.uploadButtonClick }
-                    loggedIn={ this.state.loggedIn }
-                    style={{
-                    height: "80%",
-                    flex: "0 0 100px",
-                    }}></UploadButton>
-
+            { this.props.loggedIn ?
+                <UploadButton
+                        onClick={ this.props.uploadButtonClick }
+                        style={{
+                        height: "80%",
+                        flex: "0 0 100px",
+                        }}></UploadButton> :
+                <LoginButton
+                        onClick={ this.props.loginButtonClick }
+                        style={{
+                        height: "80%",
+                        flex: "0 0 100px",
+                        }}></LoginButton>
+            }
         </div>;
     }
 }

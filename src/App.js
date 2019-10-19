@@ -1,26 +1,41 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Header from "./components/Header";
 import ClipItemContainer from "./components/ClipItemContainer";
 
-
-function importScript(url, callback, isAsync = false){
-    const script = document.createElement("script");
-    script.src = url;
-    script.async = isAsync;
-    if(callback instanceof Function) script.onload = callback;
-    document.body.appendChild(script);
-}
+import Mediator from "./system/Mediator";
 
 class App extends React.Component
 {
-    componentDidMount(){
-        new Promise(resolve => {
-            importScript("https://apis.google.com/js/api.js", resolve);
-        }).then(console.log);
+    state = {
+        loggedIn: false,
+    };
+    constructor(props){
+        super(props);
+        this.mediator = new Mediator();
     }
+
+    componentDidMount(){
+    }
+
+    loginButtonClick = async (e) =>{
+        console.log("login button clicked");
+        let res = await this.mediator.login();
+        if(res){
+            this.setState({
+                loggedIn: true,
+            })
+        }
+    };
+    settingButtonClick = (e) =>{
+        console.log("setting button clicked");
+    };
+    uploadButtonClick = (e) =>{
+        console.log("upload button clicked");
+    };
 
     render(){
         console.log(this.props);
@@ -30,7 +45,12 @@ class App extends React.Component
                 flexDirection: "column",
                 alignContent: "center",
         }}>
-            <Header style={{
+            <Header
+                    loginButtonClick={ this.loginButtonClick }
+                    settingButtonClick={ this.settingButtonClick }
+                    uploadButtonClick={ this.uploadButtonClick }
+                    loggedIn={ this.state.loggedIn }
+                    style={{
                     width: "100vw",
                     height: "100px",
             }}></Header>
