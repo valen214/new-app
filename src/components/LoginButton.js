@@ -11,8 +11,10 @@ class LoginButton extends React.Component
                 justifyContent: "center",
                 alignItems: "center",
             }, this.props.style) }
-            onClick={ this.props.onClick }>
-            log in
+            onClick={ this.props.loggedIn ?
+                  this.props.logoutButtonClick :
+                  this.props.loginButtonClick }>
+            { this.props.loggedIn ? "logout" : "log in" }
         </Button>;
     }
 }

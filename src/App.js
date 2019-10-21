@@ -20,6 +20,9 @@ class App extends React.Component
 
     componentDidMount(){
     }
+    componentDidCatch(error, info){
+        console.warn(error, info);
+    }
 
     loginButtonClick = async (e) =>{
         console.log("login button clicked");
@@ -29,6 +32,10 @@ class App extends React.Component
                 loggedIn: true,
             })
         }
+    };
+    logoutButtonCLick = async (e) =>{
+        console.log("logout button clicked");
+        let res = await this.mediator.logout();
     };
     settingButtonClick = (e) =>{
         console.log("setting button clicked");
@@ -47,6 +54,7 @@ class App extends React.Component
         }}>
             <Header
                     loginButtonClick={ this.loginButtonClick }
+                    logoutButtonClick={ this.logoutButtonClick }
                     settingButtonClick={ this.settingButtonClick }
                     uploadButtonClick={ this.uploadButtonClick }
                     loggedIn={ this.state.loggedIn }

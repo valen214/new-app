@@ -35,14 +35,16 @@ class Header extends React.Component
                         style={{
                         height: "80%",
                         flex: "0 0 100px",
-                        }}></UploadButton> :
-                <LoginButton
-                        onClick={ this.props.loginButtonClick }
-                        style={{
-                        height: "80%",
-                        flex: "0 0 100px",
-                        }}></LoginButton>
+                        }}></UploadButton> : undefined
             }
+            <LoginButton
+                    loginButtonClick={ this.props.loginButtonClick }
+                    logoutButtonClick={ this.props.logoutButtonClick }
+                    loggedIn={ this.props.loggedIn }
+                    style={{
+                    height: "80%",
+                    flex: "0 0 100px",
+                    }}></LoginButton>
         </div>;
     }
 }
