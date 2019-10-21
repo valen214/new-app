@@ -82,21 +82,26 @@ export function uploadToAppFolder(name, data){
 }
 
 export async function listAppFolder(){
-    gapi.client.drive.files.list({
+    console.log('list app folder');
+    return gapi.client.drive.files.list({
         spaces: "appDataFolder",
         fields: "nextPageToken, files(id, name)",
         pageSize: 100,
     }, (err, res) =>{
         if(err){
             console.error(err);
-        } else{
+        } else if(res.files.length){
             res.files.forEach(file =>{
                 console.log("found file:", file.name, file.id);
             });
+        } else{
+            console.log('no file found');
         }
     });
 }
 
 export default {
-    login: login,
+    login,
+    uploadToAppFolder,
+    listAppFolder
 };

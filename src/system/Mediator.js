@@ -10,6 +10,15 @@ class Mediator
     async login(){
         return GoogleLibrary.login();
     }
+
+    async uploadItem(name, data){
+        return GoogleLibrary.uploadToAppFolder(name, data);
+    }
+
+    async listItem(){
+        console.log('list item');
+        return GoogleLibrary.listAppFolder();
+    }
 }
 
 

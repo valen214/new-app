@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import Button from 'react-bootstrap/Button';
+
 import Header from "./components/Header";
 import ClipItemContainer from "./components/ClipItemContainer";
 
@@ -65,7 +67,11 @@ class App extends React.Component
             <ClipItemContainer style={{
                     width: "100vw",
                     minHeight: "calc(100vh - 100px)",
-            }}></ClipItemContainer>
+            }}>
+                <Button onClick={ this.mediator.listItem }>
+                List Items
+                </Button>
+            </ClipItemContainer>
         </div>;
     }
 }
