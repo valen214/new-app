@@ -60,15 +60,16 @@ function loginListener(isSignedIn){
 /*
 https://developers.google.com/drive/api/v3/appdata
 */
-export function uploadToAppFolder(name, data){
+export async function uploadToAppFolder(name, data){
+    console.log("GoogleLibrary.js: uploadToAppFolder()");
     gapi.client.drive.files.create({
         resources: {
             name: name,
             parents: ["appDataFolder"]
         },
         media: {
-            // mimeType: "text/plain",
-            body: data,
+            mimeType: "text/plain",
+            body: await new Response(data).blob(),
         },
         fields: "id",
     }, (err, file) =>{
