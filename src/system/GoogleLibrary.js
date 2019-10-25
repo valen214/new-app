@@ -7,7 +7,10 @@ const CLIENT_ID =
 const DISCOVERY_DOCS = [
     "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"
 ];
-const SCOPE = "https://www.googleapis.com/auth/drive.appdata";
+const SCOPE = [
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/drive.appdata"
+].join(" ");
 
 function importScript(url, callback, isAsync = false){
     const script = document.createElement("script");
@@ -44,7 +47,8 @@ export async function login(){
     console.log("logging in to Google");
     var res;
     try{
-        res = await gapi.auth2.getAuthInstance().signIn();
+        res = await gapi.auth2.getAuthInstance();
+        res = await res.signIn();
     } catch(e){
         console.log(e);
     }
@@ -62,43 +66,44 @@ https://developers.google.com/drive/api/v3/appdata
 */
 export async function uploadToAppFolder(name, data){
     console.log("GoogleLibrary.js: uploadToAppFolder()");
-    gapi.client.drive.files.create({
-        resources: {
-            name: name,
-            parents: ["appDataFolder"]
-        },
-        media: {
-            mimeType: "text/plain",
-            body: await new Response(data).blob(),
-        },
-        fields: "id",
-    }, (err, file) =>{
-        if(err){
-            console.error(`upload file (${name}) failed`);
-        } else{
-            console.log("file uploaded:", file);
-        }
-
-    });
+    try{
+        let res = await gapi.client.drive.files.create({
+            resource: {
+                "name": name,
+                "parents": ["appDataFolder"]
+            },
+            media: {
+                "mimeType": "text/plain",
+                "body": (await new Response(data).blob()).stream(),
+            },
+            fields: "id, parents",
+        });
+        res = res.result;
+        console.log("file uploaded:", res);
+    } catch(e){
+        console.error(e);
+    }
 }
 
 export async function listAppFolder(){
     console.log('list app folder');
-    return gapi.client.drive.files.list({
+    let obj = await gapi.client.drive.files.list({
         spaces: "appDataFolder",
+        // q: "'0AAEfTIVzjL1JUk9PVA' in parents",
+        // q: "'appDataFolder' in parents",
+        "maxResults": 100,
         fields: "nextPageToken, files(id, name)",
-        pageSize: 100,
-    }, (err, res) =>{
-        if(err){
-            console.error(err);
-        } else if(res.files.length){
-            res.files.forEach(file =>{
-                console.log("found file:", file.name, file.id);
-            });
-        } else{
-            console.log('no file found');
-        }
     });
+    obj = obj.result;
+    console.log(obj);
+    if(obj.files.length){
+        obj.files.forEach(file =>{
+            console.log("found file:", file.name, file.id);
+        });
+    } else{
+        console.log('no file found');
+    }
+    return obj;
 }
 
 export default {

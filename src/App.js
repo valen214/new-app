@@ -44,7 +44,7 @@ class App extends React.Component
     };
     uploadButtonClick = (e) =>{
         console.log("upload button clicked");
-        this.mediator.uploadItem("a.txt", "asdf");
+        this.mediator.uploadItem("b.txt", "asdf");
     };
 
     render(){
